@@ -34,7 +34,8 @@
 
         <activity
             android:name="br.com.zup.beagle.preview.PreviewActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
 
     </application>
 
