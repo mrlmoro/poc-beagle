@@ -1,15 +1,11 @@
 package br.com.mrlmoro.pocbeagleandroid.movies
 
 import android.content.Context
-import br.com.mrlmoro.pocbeagleandroid.beagle.BASE_URL
 import br.com.mrlmoro.pocbeagleandroid.beagle.DefaultActionListener
-import br.com.mrlmoro.pocbeagleandroid.common.showDialog
 import br.com.zup.beagle.action.ActionListener
 import br.com.zup.beagle.action.CustomAction
 import br.com.zup.beagle.action.CustomActionHandler
 import br.com.zup.beagle.view.ScreenRequest
-import okhttp3.*
-import java.io.IOException
 
 
 class MoviesCustomActionHandler : CustomActionHandler {
@@ -26,13 +22,6 @@ class MoviesCustomActionHandler : CustomActionHandler {
                 title = action.data["title"] ?: "",
                 url = "/movies/${action.data["id"]}"
             )
-
-//            "movies:goToMovieDetail" ->
-//                context.startBeagleActivity("/movies/${action.data["id"]}")
-
-//            "movies:goToMovieDetail" -> context.startBeaglePreviewActivity(
-//                MovieDetailScreenBuilder(moviesMock()[4])
-//            )
 
             "movies:sendLike" -> context.sendLike(action.data["id"] ?: "")
         }

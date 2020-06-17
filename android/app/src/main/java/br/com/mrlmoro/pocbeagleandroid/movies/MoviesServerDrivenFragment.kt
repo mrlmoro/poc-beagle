@@ -24,15 +24,6 @@ class MoviesServerDrivenFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        if (arguments?.getString(PATH_KEY) == "/movies")
-//            return MoviesScreenBuilder(ImageContentMode.CENTER_CROP)
-//                .build()
-//                .toView(this)
-//        else
-//            return MoviesScreenBuilder(ImageContentMode.CENTER)
-//                .build()
-//                .toView(this)
-
         return inflater.inflate(R.layout.fragment_movies_server_driven, container, false)
     }
 
