@@ -32,6 +32,10 @@
             android:name=".movies.MovieDetailActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name="br.com.zup.beagle.preview.PreviewActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>

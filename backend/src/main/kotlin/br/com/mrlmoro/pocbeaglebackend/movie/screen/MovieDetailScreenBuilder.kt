@@ -2,10 +2,12 @@ package br.com.mrlmoro.pocbeaglebackend.movie.screen
 
 import br.com.mrlmoro.pocbeaglebackend.movie.Movie
 import br.com.mrlmoro.pocbeaglebackend.widget.RemoteImageWidget
+import br.com.mrlmoro.pocbeaglebackend.widget.TextHtmlWidget
 import br.com.zup.beagle.action.CustomAction
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.ScreenEvent
 import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.widget.Widget
 import br.com.zup.beagle.widget.core.*
 import br.com.zup.beagle.widget.layout.*
 import br.com.zup.beagle.widget.ui.Button
@@ -143,9 +145,11 @@ class MovieDetailScreenBuilder(
         )
     )
 
-    private fun synopsis() = Text(
-        text = movie.synopsis,
-        alignment = TextAlignment.LEFT
+    private fun synopsis() = TextHtmlWidget(
+        textWidget = Text(
+            text = movie.synopsis,
+            alignment = TextAlignment.LEFT
+        )
     ).applyFlex(
         Flex(
             margin = EdgeValue(
@@ -155,14 +159,35 @@ class MovieDetailScreenBuilder(
     )
 
     private fun buttons() = Container(
-        children = listOf(
-            imdbButton(),
-            likeButton()
-        )
+        children = mutableListOf<Widget>().apply {
+            movie.primeVideoUrl?.run { add(primeVideoButton(this)) }
+            add(imdbButton())
+            add(likeButton())
+        }
     ).applyFlex(
         Flex(
             grow = 1.0,
             justifyContent = JustifyContent.FLEX_END
+        )
+    )
+
+    private fun primeVideoButton(url: String) = Button(
+        text = "Prime Video",
+        action = CustomAction(
+            name = "common:openWeb",
+            data = mapOf(Pair("url", url))
+        ),
+        clickAnalyticsEvent = ClickEvent(
+            category = "detail_primevideo_click"
+        )
+    ).applyFlex(
+        Flex(
+            size = Size(
+                height = 45.unitReal()
+            ),
+            margin = EdgeValue(
+                all = 16.unitReal()
+            )
         )
     )
 
