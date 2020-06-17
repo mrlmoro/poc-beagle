@@ -16,7 +16,7 @@ class RemoteImageWidget(
     private val contentMode: ImageContentMode
 ) : WidgetView() {
 
-    override fun toView(context: Context): ImageView {
+    override fun buildView(context: Context): ImageView {
         return ImageView(context).apply {
             scaleType = contentMode.toScaleType()
             loadUrl(url)

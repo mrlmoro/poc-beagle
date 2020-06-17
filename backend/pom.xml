@@ -48,7 +48,7 @@
 		<dependency>
 			<groupId>br.com.zup.beagle</groupId>
 			<artifactId>beagle-spring-starter</artifactId>
-			<version>0.2.5</version>
+			<version>0.2.8</version>
 		</dependency>
 	</dependencies>
 

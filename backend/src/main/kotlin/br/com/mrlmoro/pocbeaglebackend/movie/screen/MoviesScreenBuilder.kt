@@ -20,26 +20,26 @@ class MoviesScreenBuilder(
     override fun build(): Screen = Screen(
         child = Container(
             children = listOf(
-//                Button(
-//                    text = "Veja os melhores",
-//                    action = CustomAction(
-//                        name = "movies:goToBestMovies",
-//                        data = emptyMap()
-//                    )
-//                ).applyFlex(
-//                    Flex(
-//                        size = Size(
-//                            height = 100.unitReal()
-//                        ),
-//                        margin = EdgeValue(
-//                            all = 16.unitReal()
-//                        )
-//                    )
-//                ),
+                Button(
+                    text = "Veja os melhores",
+                    action = CustomAction(
+                        name = "movies:goToBestMovies",
+                        data = emptyMap()
+                    )
+                ).applyFlex(
+                    Flex(
+                        size = Size(
+                            height = 100.unitReal()
+                        ),
+                        margin = EdgeValue(
+                            all = 16.unitReal()
+                        )
+                    )
+                ),
                 MoviesRecyclerWidget(
                     movies = movies,
-                    grid = true,
-                    contentMode = ImageContentMode.CENTER
+                    grid = false,
+                    contentMode = ImageContentMode.CENTER_CROP
                 )
             )
         )

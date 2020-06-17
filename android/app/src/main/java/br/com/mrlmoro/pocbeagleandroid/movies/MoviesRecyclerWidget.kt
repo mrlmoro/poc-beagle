@@ -17,7 +17,7 @@ class MoviesRecyclerWidget(
     private val contentMode: ImageContentMode
 ) : WidgetView() {
 
-    override fun toView(context: Context) = RecyclerView(context).apply {
+    override fun buildView(context: Context) = RecyclerView(context).apply {
         layoutManager = if (grid) {
             GridLayoutManager(context, 2)
         } else {

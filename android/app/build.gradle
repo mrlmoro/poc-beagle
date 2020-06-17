@@ -38,8 +38,9 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
-    implementation "br.com.zup.beagle:android:0.2.5"
-    kapt "br.com.zup.beagle:android-processor:0.2.5"
+    implementation "br.com.zup.beagle:android:0.2.8"
+    kapt "br.com.zup.beagle:android-processor:0.2.8"
+    debugImplementation "br.com.zup.beagle:android-preview:0.2.8"
 
     implementation 'com.squareup.okhttp3:okhttp:4.5.0'
 

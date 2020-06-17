@@ -9,7 +9,8 @@ data class Movie(
     val releaseDate: String,
     val imdbUrl: String,
     val bannerUrl: String,
-    val likes: Int = 0
+    val likes: Int = 0,
+    val primeVideoUrl: String? = null
 )
 
 fun moviesMock() = listOf(
@@ -57,13 +58,14 @@ fun moviesMock() = listOf(
     Movie(
         id = "5",
         title = "Star Wars - O Império Contra-Ataca",
-        synopsis = "Yoda treina Luke Skywalker para ser um cavaleiro Jedi. Han Solo corteja a Princesa Leia enquanto Darth Vader retorna para combater as forças rebeldes que tentam salvar a galáxia.",
+        synopsis = "Yoda treina <b>Luke Skywalker</b> para ser um cavaleiro Jedi. Han Solo corteja a Princesa Leia enquanto Darth Vader retorna para combater as forças rebeldes que tentam salvar a galáxia.",
         genres = "Ação, Aventura, Fantasia",
         durationMinutes = 124,
         releaseDate = "21/07/1980",
         imdbUrl = "https://www.imdb.com/title/tt0080684/",
         bannerUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPDK1RaURYxdi20dvrq-GrN4fvl2ixhqWhcmMQSjMy7ehtNPq7",
-        likes = 2 //TODO Remove
+        likes = 2, //TODO Remove
+        primeVideoUrl = "https://www.primevideo.com/detail/0O2UA3I2RIGIMMQIKNNOFP26VL/ref=atv_sr_def_c_unkc__3_1_3?sr=1-3&pageTypeIdSource=ASIN&pageTypeId=B087CLZ4FM&qid=1588722757"
     ),
     Movie(
         id = "6",
