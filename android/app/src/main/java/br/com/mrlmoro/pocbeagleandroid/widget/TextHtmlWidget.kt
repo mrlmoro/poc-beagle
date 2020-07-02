@@ -1,43 +1,52 @@
 package br.com.mrlmoro.pocbeagleandroid.widget
 
-import android.content.Context
-import android.graphics.Color
 import android.view.Gravity
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.text.HtmlCompat
 import androidx.core.widget.TextViewCompat
 import br.com.mrlmoro.pocbeagleandroid.beagle.AppDesignSystem
+import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.android.widget.WidgetView
 import br.com.zup.beagle.annotation.RegisterWidget
-import br.com.zup.beagle.widget.core.WidgetView
-import br.com.zup.beagle.widget.ui.Text
-import br.com.zup.beagle.widget.ui.TextAlignment
+import br.com.zup.beagle.widget.core.TextAlignment
 
 @RegisterWidget
 class TextHtmlWidget(
     private val textWidget: Text
 ) : WidgetView() {
 
-    override fun buildView(context: Context) = AppCompatTextView(context).apply {
-        AppDesignSystem().textAppearance(textWidget.style ?: "").let {
+    override fun buildView(rootView: RootView) = AppCompatTextView(rootView.getContext()).apply {
+        AppDesignSystem().textStyle(textWidget.styleId ?: "").let {
             TextViewCompat.setTextAppearance(this, it)
         }
 
-        this.gravity = when (textWidget.alignment) {
-            TextAlignment.CENTER -> Gravity.CENTER
-            TextAlignment.RIGHT -> Gravity.END
-            else -> Gravity.START
-        }
+        //TODO understand why Bind value is Any type
 
-        textWidget.textColor?.toAndroidColor()?.let {
-            setTextColor(it)
-        }
+        textWidget.alignment?.value
+            ?.takeIf { it is TextAlignment }
+            ?.let { it as TextAlignment }
+            ?.apply {
+                gravity = when (this) {
+                    TextAlignment.CENTER -> Gravity.CENTER
+                    TextAlignment.RIGHT -> Gravity.END
+                    else -> Gravity.START
+                }
+            }
 
-        text = HtmlCompat.fromHtml(textWidget.text, HtmlCompat.FROM_HTML_MODE_LEGACY)
-    }
+        textWidget.textColor?.value
+            ?.takeIf { it is String }
+            ?.let { it as String }
+            ?.apply {
+                setTextColor(toAndroidColor())
+            }
 
-    private fun String.toAndroidColor(): Int {
-        val hexColor = if (this.startsWith("#")) this else "#$this"
-        return Color.parseColor(hexColor)
+        textWidget.text.value
+            .takeIf { it is String }
+            ?.let { it as String }
+            ?.apply {
+                text = HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_LEGACY)
+            }
     }
 
 }

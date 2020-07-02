@@ -1,11 +1,15 @@
 package br.com.mrlmoro.pocbeaglebackend.movie.screen
 
+import br.com.mrlmoro.pocbeaglebackend.navigate.ScreenRoutes
 import br.com.mrlmoro.pocbeaglebackend.movie.Movie
 import br.com.mrlmoro.pocbeaglebackend.movie.widget.MoviesRecyclerWidget
-import br.com.zup.beagle.action.CustomAction
+import br.com.mrlmoro.pocbeaglebackend.widget.CustomButtonWidget
+import br.com.zup.beagle.analytics.ClickEvent
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
+import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
 import br.com.zup.beagle.widget.core.ImageContentMode
 import br.com.zup.beagle.widget.core.Size
 import br.com.zup.beagle.widget.layout.Container
@@ -20,14 +24,15 @@ class MoviesScreenBuilder(
     override fun build(): Screen = Screen(
         child = Container(
             children = listOf(
-                Button(
-                    text = "Veja os melhores",
-                    action = CustomAction(
-                        name = "movies:goToBestMovies",
-                        data = emptyMap()
+                CustomButtonWidget(
+                    buttonWidget = Button(
+                        text = "Veja os melhores",
+                        styleId = "rounded",
+                        clickAnalyticsEvent = ClickEvent(category = "see_best_movies_click"),
+                        onPress = listOf(Navigate.OpenNativeRoute(ScreenRoutes.NAVIGATE_MOVIES_BEST))
                     )
-                ).applyFlex(
-                    Flex(
+                ).applyStyle(
+                    Style(
                         size = Size(
                             height = 100.unitReal()
                         ),
@@ -44,5 +49,4 @@ class MoviesScreenBuilder(
             )
         )
     )
-
 }

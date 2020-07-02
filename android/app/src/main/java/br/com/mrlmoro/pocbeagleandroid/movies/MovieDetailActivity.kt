@@ -1,7 +1,5 @@
 package br.com.mrlmoro.pocbeagleandroid.movies
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -9,32 +7,21 @@ import androidx.core.content.ContextCompat
 import br.com.mrlmoro.pocbeagleandroid.R
 import br.com.mrlmoro.pocbeagleandroid.beagle.BASE_URL
 import br.com.mrlmoro.pocbeagleandroid.common.showDialog
-import br.com.zup.beagle.utils.loadView
-import br.com.zup.beagle.utils.setBeagleStateChangedListener
-import br.com.zup.beagle.view.BeagleViewState
-import br.com.zup.beagle.view.BeagleViewState.*
-import br.com.zup.beagle.view.ScreenRequest
-import br.com.zup.beagle.view.StateChangedListener
+import br.com.zup.beagle.android.action.Action
+import br.com.zup.beagle.android.utils.loadView
+import br.com.zup.beagle.android.view.ScreenRequest
+import br.com.zup.beagle.android.view.custom.BeagleViewState.*
+import br.com.zup.beagle.android.widget.RootView
+import br.com.zup.beagle.annotation.RegisterAction
 import kotlinx.android.synthetic.main.activity_server_driven.*
 import okhttp3.*
 import java.io.IOException
 
-class MovieDetailActivity : AppCompatActivity(), StateChangedListener {
+class MovieDetailActivity : AppCompatActivity() {
 
     companion object {
-        private const val SCREEN_REQUEST_KEY = "SCREEN_REQUEST_KEY"
-        private const val TITLE_KEY = "TITLE_KEY"
-
-        fun newIntent(
-            context: Context,
-            title: String,
-            screenRequest: ScreenRequest
-        ): Intent {
-            return Intent(context, MovieDetailActivity::class.java).apply {
-                putExtra(TITLE_KEY, title)
-                putExtra(SCREEN_REQUEST_KEY, screenRequest)
-            }
-        }
+        const val URL_KEY = "URL_KEY"
+        const val TITLE_KEY = "TITLE_KEY"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,8 +30,8 @@ class MovieDetailActivity : AppCompatActivity(), StateChangedListener {
 
         initToolbar()
 
-        intent.getParcelableExtra<ScreenRequest>(SCREEN_REQUEST_KEY)
-            ?.run { loadView(this) }
+        intent.getStringExtra(URL_KEY)
+            ?.run { loadView(ScreenRequest(this)) }
             ?: finish()
     }
 
@@ -55,8 +42,16 @@ class MovieDetailActivity : AppCompatActivity(), StateChangedListener {
     }
 
     private fun loadView(screenRequest: ScreenRequest) {
-        server_driven_container.loadView(this, screenRequest)
-        server_driven_container.setBeagleStateChangedListener(this)
+        server_driven_container.loadView(this, screenRequest) {
+            when (it) {
+                is LoadStarted -> {
+                    server_driven_container.removeAllViews() //Fix crash
+                    progress.visibility = View.VISIBLE
+                }
+                is LoadFinished -> progress.visibility = View.GONE
+                is Error -> showDialog("Erro inesperado.")
+            }
+        }
     }
 
     //Only for sample, must be delegated to ViewModel with LiveData state to show dialogs safe.
@@ -80,12 +75,18 @@ class MovieDetailActivity : AppCompatActivity(), StateChangedListener {
             }
         })
     }
+}
 
-    override fun onStateChanged(state: BeagleViewState) {
-        when (state) {
-            is LoadStarted -> progress.visibility = View.VISIBLE
-            is LoadFinished -> progress.visibility = View.GONE
-            is Error -> showDialog("Erro inesperado.")
-        }
+@RegisterAction
+data class SendMovieLikeAction(
+    val movieId: String
+) : Action {
+
+    override fun execute(rootView: RootView) {
+        rootView.getContext()
+            .takeIf { it is MovieDetailActivity }
+            ?.let { it as MovieDetailActivity }
+            ?.sendLike(movieId)
     }
+
 }

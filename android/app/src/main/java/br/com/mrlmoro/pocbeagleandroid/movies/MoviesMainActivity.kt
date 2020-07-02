@@ -1,8 +1,11 @@
 package br.com.mrlmoro.pocbeagleandroid.movies
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import br.com.mrlmoro.pocbeagleandroid.R
+import br.com.mrlmoro.pocbeagleandroid.beagle.navigate.ScreenRoutes
 import br.com.mrlmoro.pocbeagleandroid.movies.MoviesServerDrivenFragment.Companion.PATH_KEY
 import kotlinx.android.synthetic.main.activity_movies_main.*
 
@@ -28,11 +31,11 @@ class MoviesMainActivity : AppCompatActivity() {
             return@setOnNavigationItemSelectedListener true
         }
 
+        //TODO For now Beagle cannot invalidate screen cache, so refresh does not work.
+        swipe_refresh.isEnabled = false
         swipe_refresh.setOnRefreshListener {
             swipe_refresh.isRefreshing = false
-            //TODO For now Beagle cannot invalidate screen cache, so refresh does not work.
-            // New library version will be available soon.
-            getFragment(bottom_menu.selectedItemId.toString())?.loadView()
+//            getFragment(bottom_menu.selectedItemId.toString())?.refreshView()
         }
 
         if (savedInstanceState == null) {
@@ -56,7 +59,17 @@ class MoviesMainActivity : AppCompatActivity() {
             ?.let { it as MoviesServerDrivenFragment }
     }
 
-    fun goToBestMovies() {
+    private fun goToBestMovies() {
         bottom_menu.selectedItemId = R.id.best
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.action?.apply {
+            Log.i("onNewIntent", "action: $this")
+            if (this == ScreenRoutes.NAVIGATE_MOVIES_BEST) {
+                goToBestMovies()
+            }
+        }
     }
 }

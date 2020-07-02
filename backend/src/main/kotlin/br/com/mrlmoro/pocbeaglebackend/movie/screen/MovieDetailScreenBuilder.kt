@@ -1,18 +1,22 @@
 package br.com.mrlmoro.pocbeaglebackend.movie.screen
 
 import br.com.mrlmoro.pocbeaglebackend.movie.Movie
+import br.com.mrlmoro.pocbeaglebackend.movie.action.SendMovieLikeAction
+import br.com.mrlmoro.pocbeaglebackend.widget.CustomButtonWidget
 import br.com.mrlmoro.pocbeaglebackend.widget.RemoteImageWidget
 import br.com.mrlmoro.pocbeaglebackend.widget.TextHtmlWidget
-import br.com.zup.beagle.action.CustomAction
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.analytics.ScreenEvent
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
 import br.com.zup.beagle.widget.Widget
+import br.com.zup.beagle.widget.action.Navigate
 import br.com.zup.beagle.widget.core.*
 import br.com.zup.beagle.widget.layout.*
 import br.com.zup.beagle.widget.ui.Button
 import br.com.zup.beagle.widget.ui.Text
-import br.com.zup.beagle.widget.ui.TextAlignment
 
 class MovieDetailScreenBuilder(
     private val movie: Movie
@@ -21,7 +25,7 @@ class MovieDetailScreenBuilder(
     override fun build(): Screen = Screen(
         navigationBar = NavigationBar(
             title = movie.title,
-            style = "navigation",
+            styleId = "navigation",
             showBackButton = true
         ),
         screenAnalyticsEvent = ScreenEvent(
@@ -63,8 +67,8 @@ class MovieDetailScreenBuilder(
             duration(),
             releaseDate()
         )
-    ).applyFlex(
-        Flex(
+    ).applyStyle(
+        Style(
             padding = EdgeValue(
                 right = 8.unitReal(),
                 left = 8.unitReal()
@@ -75,8 +79,8 @@ class MovieDetailScreenBuilder(
     private fun banner() = RemoteImageWidget(
         url = movie.bannerUrl,
         contentMode = ImageContentMode.CENTER
-    ).applyFlex(
-        Flex(
+    ).applyStyle(
+        Style(
             size = Size(
                 width = 160.unitReal(),
                 height = 230.unitReal(),
@@ -88,21 +92,21 @@ class MovieDetailScreenBuilder(
 
     private fun title() = Text(
         text = movie.title,
-        style = "title"
+        styleId = "title"
     )
 
     private fun genres() = Container(
         children = listOf(
             Text(
                 text = "Gêneros:",
-                style = "bold"
+                styleId = "bold"
             ),
             Text(
                 text = movie.genres
             )
         )
-    ).applyFlex(
-        Flex(
+    ).applyStyle(
+        Style(
             margin = EdgeValue(
                 top = 8.unitReal()
             )
@@ -113,14 +117,14 @@ class MovieDetailScreenBuilder(
         children = listOf(
             Text(
                 text = "Duração:",
-                style = "bold"
+                styleId = "bold"
             ),
             Text(
                 text = "${movie.durationMinutes} minutos"
             )
         )
-    ).applyFlex(
-        Flex(
+    ).applyStyle(
+        Style(
             margin = EdgeValue(
                 top = 8.unitReal()
             )
@@ -131,14 +135,14 @@ class MovieDetailScreenBuilder(
         children = listOf(
             Text(
                 text = "Data de lançamento:",
-                style = "bold"
+                styleId = "bold"
             ),
             Text(
                 text = movie.releaseDate
             )
         )
-    ).applyFlex(
-        Flex(
+    ).applyStyle(
+        Style(
             margin = EdgeValue(
                 top = 8.unitReal()
             )
@@ -150,8 +154,8 @@ class MovieDetailScreenBuilder(
             text = movie.synopsis,
             alignment = TextAlignment.LEFT
         )
-    ).applyFlex(
-        Flex(
+    ).applyStyle(
+        Style(
             margin = EdgeValue(
                 all = 16.unitReal()
             )
@@ -171,17 +175,14 @@ class MovieDetailScreenBuilder(
         )
     )
 
-    private fun primeVideoButton(url: String) = Button(
-        text = "Prime Video",
-        action = CustomAction(
-            name = "common:openWeb",
-            data = mapOf(Pair("url", url))
-        ),
-        clickAnalyticsEvent = ClickEvent(
-            category = "detail_primevideo_click"
+    private fun primeVideoButton(url: String) = CustomButtonWidget(
+        buttonWidget = Button(
+            text = "Prime Video",
+            onPress = listOf(Navigate.OpenExternalURL(url)),
+            clickAnalyticsEvent = ClickEvent(category = "detail_primevideo_click")
         )
-    ).applyFlex(
-        Flex(
+    ).applyStyle(
+        Style(
             size = Size(
                 height = 45.unitReal()
             ),
@@ -191,18 +192,15 @@ class MovieDetailScreenBuilder(
         )
     )
 
-    private fun imdbButton() = Button(
-        text = "IMDb",
-        style = "rounded",
-        action = CustomAction(
-            name = "common:openWeb",
-            data = mapOf(Pair("url", movie.imdbUrl))
-        ),
-        clickAnalyticsEvent = ClickEvent(
-            category = "detail_imdb_click"
+    private fun imdbButton() = CustomButtonWidget(
+        buttonWidget = Button(
+            text = "IMDb",
+            styleId = "rounded",
+            onPress = listOf(Navigate.OpenExternalURL(movie.imdbUrl)),
+            clickAnalyticsEvent = ClickEvent(category = "detail_imdb_click")
         )
-    ).applyFlex(
-        Flex(
+    ).applyStyle(
+        Style(
             size = Size(
                 height = 45.unitReal()
             ),
@@ -212,18 +210,15 @@ class MovieDetailScreenBuilder(
         )
     )
 
-    private fun likeButton() = Button(
-        text = "Gostei!!!",
-        style = "rounded",
-        action = CustomAction(
-            name = "movies:sendLike",
-            data = mapOf(Pair("id", movie.id))
-        ),
-        clickAnalyticsEvent = ClickEvent(
-            category = "detail_like_click"
+    private fun likeButton() = CustomButtonWidget(
+        buttonWidget = Button(
+            text = "Gostei!!!",
+            styleId = "rounded",
+            onPress = listOf(SendMovieLikeAction(movie.id)),
+            clickAnalyticsEvent = ClickEvent(category = "detail_like_click")
         )
-    ).applyFlex(
-        Flex(
+    ).applyStyle(
+        Style(
             size = Size(
                 height = 45.unitReal()
             ),

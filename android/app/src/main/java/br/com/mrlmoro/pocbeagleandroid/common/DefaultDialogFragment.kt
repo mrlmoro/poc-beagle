@@ -5,17 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import br.com.zup.beagle.action.CustomAction
+import br.com.mrlmoro.pocbeagleandroid.widget.CustomButtonWidget
+import br.com.zup.beagle.android.components.Button
+import br.com.zup.beagle.android.components.Text
+import br.com.zup.beagle.android.components.layout.Container
+import br.com.zup.beagle.android.utils.toView
+import br.com.zup.beagle.core.Style
+import br.com.zup.beagle.ext.applyFlex
+import br.com.zup.beagle.ext.applyStyle
 import br.com.zup.beagle.ext.unitReal
-import br.com.zup.beagle.utils.toView
-import br.com.zup.beagle.widget.core.EdgeValue
-import br.com.zup.beagle.widget.core.Flex
-import br.com.zup.beagle.widget.core.JustifyContent
-import br.com.zup.beagle.widget.core.Size
-import br.com.zup.beagle.widget.layout.Container
-import br.com.zup.beagle.widget.ui.Button
-import br.com.zup.beagle.widget.ui.Text
-import br.com.zup.beagle.widget.ui.TextAlignment
+import br.com.zup.beagle.widget.core.*
 
 class DefaultDialogFragment : DialogFragment() {
 
@@ -45,40 +44,36 @@ class DefaultDialogFragment : DialogFragment() {
                     alignment = TextAlignment.CENTER
                 ).applyFlex(
                     Flex(
-                        grow = 1.0,
+                        grow = 1.0
+                    )
+                ).applyStyle(
+                    Style(
                         margin = EdgeValue(
                             all = 16.unitReal()
                         )
                     )
                 ),
-                Button(
-                    text = "Ok",
-                    style = "rounded",
-                    action = CustomAction(
-                        name = "common:dismissDialog",
-                        data = emptyMap()
+                CustomButtonWidget(
+                    Button(
+                        text = "Ok",
+                        styleId = "rounded",
+                        onPress = listOf(DismissDialogAction())
                     )
-                ).applyFlex(
-                    Flex(
+                ).applyStyle(
+                    Style(
                         margin = EdgeValue(
                             all = 16.unitReal()
                         )
                     )
                 )
             )
-        ).applyFlex(
-            Flex(
-                grow = 1.0,
-                justifyContent = JustifyContent.SPACE_BETWEEN,
+        ).applyStyle(
+            Style(
                 size = Size(
                     width = 280.unitReal(),
-                    height = 280.unitReal()
-                ),
-                margin = EdgeValue(
-                    all = 100.unitReal()
+                    maxWidth = 280.unitReal()
                 )
             )
         ).toView(fragment)
-
     }
 }

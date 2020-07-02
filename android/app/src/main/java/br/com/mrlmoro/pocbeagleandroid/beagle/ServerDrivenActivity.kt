@@ -5,9 +5,9 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import br.com.mrlmoro.pocbeagleandroid.R
 import br.com.mrlmoro.pocbeagleandroid.common.showDialog
-import br.com.zup.beagle.annotation.BeagleComponent
-import br.com.zup.beagle.view.BeagleActivity
-import br.com.zup.beagle.view.ServerDrivenState
+import br.com.zup.beagle.android.annotation.BeagleComponent
+import br.com.zup.beagle.android.view.BeagleActivity
+import br.com.zup.beagle.android.view.ServerDrivenState
 import kotlinx.android.synthetic.main.activity_server_driven.*
 
 @BeagleComponent

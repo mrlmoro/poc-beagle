@@ -2,10 +2,9 @@ package br.com.mrlmoro.pocbeagleandroid.beagle
 
 import android.content.Context
 import android.widget.ImageView
-import br.com.zup.beagle.view.BeagleActivity
-import br.com.zup.beagle.view.ScreenRequest
+import br.com.zup.beagle.android.view.BeagleActivity
+import br.com.zup.beagle.android.view.ScreenRequest
 import br.com.zup.beagle.widget.core.ImageContentMode
-import br.com.zup.beagle.widget.layout.ScreenBuilder
 
 fun ImageContentMode.toScaleType(): ImageView.ScaleType {
     return when (this) {
@@ -21,15 +20,6 @@ fun Context.startBeagleActivity(url: String) {
         BeagleActivity.newIntent(
             context = this,
             screenRequest = ScreenRequest(url)
-        )
-    )
-}
-
-fun Context.startBeaglePreviewActivity(screenBuilder: ScreenBuilder) {
-    startActivity(
-        BeagleActivity.newIntent(
-            context = this,
-            screen = screenBuilder.build()
         )
     )
 }

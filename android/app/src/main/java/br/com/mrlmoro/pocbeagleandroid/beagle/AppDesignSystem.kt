@@ -1,37 +1,33 @@
 package br.com.mrlmoro.pocbeagleandroid.beagle
 
 import br.com.mrlmoro.pocbeagleandroid.R
-import br.com.zup.beagle.annotation.BeagleComponent
-import br.com.zup.beagle.setup.DesignSystem
+import br.com.zup.beagle.android.annotation.BeagleComponent
+import br.com.zup.beagle.android.setup.DesignSystem
 
 @BeagleComponent
-class AppDesignSystem : DesignSystem {
+class AppDesignSystem : DesignSystem() {
 
-    override fun buttonStyle(name: String): Int {
-        return when (name) {
+    override fun buttonStyle(id: String): Int {
+        return when (id) {
             "rounded" -> R.style.AppTheme_RoundedButton
             else -> R.style.AppTheme_Button
         }
     }
 
-    override fun image(name: String): Int {
-        throw IllegalArgumentException("Icon not found")
-    }
-
-    override fun tabBarStyle(name: String): Int? = null
-
-    override fun textAppearance(name: String): Int {
-        return when (name) {
+    override fun textStyle(id: String): Int {
+        return when (id) {
             "title" -> R.style.AppTheme_TextView_Title
             "bold" -> R.style.AppTheme_TextView_Bold
             else -> R.style.AppTheme_TextView
         }
     }
 
-    override fun theme(): Int = R.style.AppTheme
+    override fun inputTextStyle(id: String): Int? {
+        return super.inputTextStyle(id)
+    }
 
-    override fun toolbarStyle(name: String): Int {
-        return when (name) {
+    override fun toolbarStyle(id: String): Int {
+        return when (id) {
             "navigation" -> R.style.AppTheme_Toolbar_Navigation
             else -> R.style.AppTheme_Toolbar
         }
