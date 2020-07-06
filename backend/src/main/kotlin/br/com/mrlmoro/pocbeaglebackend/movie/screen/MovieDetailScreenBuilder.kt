@@ -2,7 +2,6 @@ package br.com.mrlmoro.pocbeaglebackend.movie.screen
 
 import br.com.mrlmoro.pocbeaglebackend.movie.Movie
 import br.com.mrlmoro.pocbeaglebackend.movie.action.SendMovieLikeAction
-import br.com.mrlmoro.pocbeaglebackend.widget.CustomButtonWidget
 import br.com.mrlmoro.pocbeaglebackend.widget.RemoteImageWidget
 import br.com.mrlmoro.pocbeaglebackend.widget.TextHtmlWidget
 import br.com.zup.beagle.analytics.ClickEvent
@@ -175,12 +174,10 @@ class MovieDetailScreenBuilder(
         )
     )
 
-    private fun primeVideoButton(url: String) = CustomButtonWidget(
-        buttonWidget = Button(
-            text = "Prime Video",
-            onPress = listOf(Navigate.OpenExternalURL(url)),
-            clickAnalyticsEvent = ClickEvent(category = "detail_primevideo_click")
-        )
+    private fun primeVideoButton(url: String) = Button(
+        text = "Prime Video",
+        onPress = listOf(Navigate.OpenExternalURL(url)),
+        clickAnalyticsEvent = ClickEvent(category = "detail_primevideo_click")
     ).applyStyle(
         Style(
             size = Size(
@@ -192,13 +189,11 @@ class MovieDetailScreenBuilder(
         )
     )
 
-    private fun imdbButton() = CustomButtonWidget(
-        buttonWidget = Button(
-            text = "IMDb",
-            styleId = "rounded",
-            onPress = listOf(Navigate.OpenExternalURL(movie.imdbUrl)),
-            clickAnalyticsEvent = ClickEvent(category = "detail_imdb_click")
-        )
+    private fun imdbButton() = Button(
+        text = "IMDb",
+        styleId = "rounded",
+        onPress = listOf(Navigate.OpenExternalURL(movie.imdbUrl)),
+        clickAnalyticsEvent = ClickEvent(category = "detail_imdb_click")
     ).applyStyle(
         Style(
             size = Size(
@@ -210,13 +205,11 @@ class MovieDetailScreenBuilder(
         )
     )
 
-    private fun likeButton() = CustomButtonWidget(
-        buttonWidget = Button(
-            text = "Gostei!!!",
-            styleId = "rounded",
-            onPress = listOf(SendMovieLikeAction(movie.id)),
-            clickAnalyticsEvent = ClickEvent(category = "detail_like_click")
-        )
+    private fun likeButton() = Button(
+        text = "Gostei!!!",
+        styleId = "rounded",
+        onPress = listOf(SendMovieLikeAction(movie.id)),
+        clickAnalyticsEvent = ClickEvent(category = "detail_like_click")
     ).applyStyle(
         Style(
             size = Size(

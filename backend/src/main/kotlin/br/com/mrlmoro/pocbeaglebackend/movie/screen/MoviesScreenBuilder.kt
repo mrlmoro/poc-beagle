@@ -3,7 +3,6 @@ package br.com.mrlmoro.pocbeaglebackend.movie.screen
 import br.com.mrlmoro.pocbeaglebackend.navigate.ScreenRoutes
 import br.com.mrlmoro.pocbeaglebackend.movie.Movie
 import br.com.mrlmoro.pocbeaglebackend.movie.widget.MoviesRecyclerWidget
-import br.com.mrlmoro.pocbeaglebackend.widget.CustomButtonWidget
 import br.com.zup.beagle.analytics.ClickEvent
 import br.com.zup.beagle.core.Style
 import br.com.zup.beagle.ext.applyStyle
@@ -24,13 +23,11 @@ class MoviesScreenBuilder(
     override fun build(): Screen = Screen(
         child = Container(
             children = listOf(
-                CustomButtonWidget(
-                    buttonWidget = Button(
-                        text = "Veja os melhores",
-                        styleId = "rounded",
-                        clickAnalyticsEvent = ClickEvent(category = "see_best_movies_click"),
-                        onPress = listOf(Navigate.OpenNativeRoute(ScreenRoutes.NAVIGATE_MOVIES_BEST))
-                    )
+                Button(
+                    text = "Veja os melhores",
+                    styleId = "rounded",
+                    clickAnalyticsEvent = ClickEvent(category = "see_best_movies_click"),
+                    onPress = listOf(Navigate.OpenNativeRoute(ScreenRoutes.NAVIGATE_MOVIES_BEST))
                 ).applyStyle(
                     Style(
                         size = Size(
